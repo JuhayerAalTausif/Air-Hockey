@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <style>
+        body{
+            margin: 0;
+            padding: 0;
+        }
+        canvas{
+            display: block;
+            margin: 0;
+            padding: 0;
+            background-color: black;
+        }
+    </style>
+</head>
+<body>
+    <canvas></canvas>
+</body>
+<script>
+    var canvas = document.querySelector('canvas');
+    var c = canvas.getContext('2d');
+    canvas.height = window.innerHeight;
+    canvas.width = window.innerWidth;
+    // c.translate(0, window.innerHeight);
+    // c.scale(1, -1);
+    var x = window.innerWidth / 2;
+    var y = window.innerHeight / 2;
+    var Cx = window.innerWidth / 2;
+    var Cy = window.innerHeight / 4;
+    var vx = 0;
+    var vy = 0;
+    var vxC = 0;
+    var vyC = 0;
+    var vmax = 20;
+    let friction = 0.009;
+    var radius = 30;
+    var mouse = {
+            x : window.innerWidth / 2,
+            y : 3 * window.innerHeight / 4
+        }
+    // var prevMouse = { // Store previous mouse position
+    //     x: undefined,
+    //     y: undefined
+    // };
+    var mousePx = [];
+    var mousePy = [];
+
+    window.addEventListener('mousemove', function(event){
+        // prevMouse.x = mouse.x; // Store previous mouse position
+        // prevMouse.y = mouse.y;
+        mouse.x = event.clientX - canvas.offsetLeft;
+        mouse.y = event.clientY - canvas.offsetTop;
+        mousePx.push(mouse.x);
+        mousePy.push(mouse.y);
+    });
+    window.addEventListener("touchstart", move);
+    function move(event) {
+        window.addEventListener("touchmove", function(event){
+            mouse.x = event.touches[0].clientX;
+            mouse.y = event.touches[0].clientY;
+        });
+    }
+    
+    function getRndInteger(min, max) {
+        return Math.floor(Math.random() * (max - min + 1) ) + min;
+    }
+    
+    function ball(){
+        requestAnimationFrame(ball);
+        //c.clearRect(0, 0, window.innerWidth, window.innerHeight);
+        
+    }
+
+    let colission_status;
+
+    function hand(){
+        requestAnimationFrame(hand);
+        c.clearRect(0, 0, window.innerWidth, window.innerHeight);
+
+        c.beginPath();
+        c.arc(x, y, 20, 0, Math.PI * 2, false);
+        c.strokeStyle = '#d0c462';
+        c.lineWidth = 10;
+        c.stroke();
+        c.closePath();
+        if(x - radius <= 10){
+            x = radius + 10;
+            vx = -vx;
+        }else if(x + radius >= window.innerWidth - 10){
+            x = window.innerWidth - radius - 10;
+            vx = -vx;
+        }else{
+            vx = vx;
+        }
+        if(y - radius <= 10){
+            y = radius + 10;
+            vy = -vy;
+        }else if(y + radius >= window.innerHeight - 10){
+            y = window.innerHeight - radius - 10;
+            vy = -vy;
+        }else{
+            vy = vy;
+        }
+        vx -= vx * friction;
+        vy -= vy * friction;
+
+        c.beginPath();
+        if(mouse.x + 70 >= window.innerWidth){
+            mouse.x = window.innerWidth - 70;
+        }else if(mouse.x - 70 <= 0){
+            mouse.x = 70;
+        }else{
+            mouse.x = mouse.x;
+        }
+        if(mouse.y + 70 >= window.innerHeight){
+            mouse.y = window.innerHeight - 70;
+        }else if(mouse.y - radius <= window.innerHeight / 2){
+            mouse.y = window.innerHeight / 2 + radius;
+        }else{
+            mouse.y = mouse.y;
+        } 
+        
+        c.arc(mouse.x, mouse.y, radius, 0, Math.PI * 2, false);
+        c.strokeStyle = '#76e370';
+        c.lineWidth = 10;
+        c.stroke();
+        c.closePath();
+
+        c.beginPath();
+        if(Cx + 70 >= window.innerWidth){
+            Cx = window.innerWidth - 70;
+            vxC = 0;
+        }else if(Cx - 70 <= 0){
+            Cx = 70;
+            vxC = 0;
+        }else{
+            Cx = Cx;
+        }
+        if(Cy + 70 >= window.innerHeight / 2){
+            Cy = window.innerHeight / 2 - 70;
+        }else if(Cy - radius <= window.innerHeight / 12){
+            Cy = window.innerHeight / 12 + radius;
+        }else{
+            Cy = Cy;
+        }
+
+        c.arc(Cx, Cy, radius, 0, Math.PI * 2, false);
+        c.strokeStyle = '#F5564E';
+        c.lineWidth = 10;
+        c.stroke();
+        c.closePath();
+
+        if(Math.abs(vx) < 10){
+            vxC = vx;
+        }else if(vx < -10){
+            vxC = -12;
+        }else{
+            vxC = 12;
+        }
+        if(y <= window.innerHeight / 2){
+            if(vy > -10 && vy < 0){
+                vyC = -vy;}
+            // }else if(vy < -10){
+            //     vyC = 12;
+            // }else{
+            //     vyC = -12;
+            // }
+        }else{
+            vyC--;
+        }
+
+
+        var PxD = mouse.x - x;
+        var PyD = mouse.y - y;
+        
+        var CxD = Cx - x;
+        var CyD = Cy - y;
+        
+        const pDistance = Math.sqrt(Math.pow(PxD, 2) + Math.pow(PyD, 2));
+        const cDistance = Math.sqrt(Math.pow(CxD, 2) + Math.pow(CyD, 2));
+
+        const vxh = (mousePx[mousePx.length - 1] - mousePx[mousePx.length - 2]);
+        const vyh = (mousePy[mousePy.length - 1] - mousePy[mousePy.length - 2]);
+
+        if(pDistance <= 70){
+            hit(mouse.x, mouse.y, vxh, vyh);
+        }
+        if(cDistance <= 70){
+            hit(Cx, Cy, vxC, vyC);
+        }
+
+        // if(pDistance < 70){
+        //     colission_status = true;
+        // }else{
+        //     colission_status = false;
+        // }
+        x += vx;
+        y += vy;
+
+        Cx += vxC;
+        Cy += vyC;
+    }
+
+    window.onload = hand;
+    //ball();
+ 
+    function hit(X, Y, Vx, Vy){
+        // const vxh = prevMouse.x - mouse.x;
+        // const vyh = prevMouse.y - mouse.y;
+        const Dx = x - X;
+        const Dy = y - Y;
+        const Dvx = Vx - vx;
+        const Dvy = Vy - vy;
+        // if(x >= X){
+        //     x = X + Dx;
+        // }else if(x <= X){
+        //     x = X - Dx;
+        // }else{
+        //     x = x;
+        // }
+        // if(y >= Y){
+        //     y = Y + Dy;
+        // }else if(y <= Y){
+        //     y = Y - Dy;
+        // }else{
+        //     y = y;
+        // }
+        if(Dx * Dvx + Dy * Dvy >= 0){
+            const thetaR = -Math.atan((Y - y) / (X - x));
+            const vyr = vx * Math.sin(thetaR) + vy * Math.sin(Math.PI / 2 + thetaR);
+            let vxr;
+            if(Math.abs(Vx) <= Math.abs(vx) && Math.abs(Vy) <= Math.abs(vy)){
+                vxr = 2 * ((-vx + 2 * Vx) * Math.cos(thetaR) + (-vy + 2 * Vy)  * Math.cos(Math.PI / 2 + thetaR));
+            }else{
+                vxr = 2 * (Vx * Math.cos(thetaR) + Vy  * Math.cos(Math.PI / 2 + thetaR));
+            }
+            // console.log('angle ' + thetaR * 180 / Math.PI);
+            // console.log('v ' + vxr + '   vxh ' + vxh + '   thetaR ' + thetaR);
+            vx = vxr * Math.cos(-thetaR) + vyr * Math.cos(Math.PI / 2 - thetaR);
+            vy = vxr * Math.sin(-thetaR) + vyr * Math.sin(Math.PI / 2 - thetaR);
+            //console.log('fck');
+            if (vx > vmax) {
+                vx = vmax;
+            }else if(vx < -vmax){
+                vx = - vmax;
+            }
+            if (vy > vmax) {
+                vy = vmax;
+            }else if (vy < -vmax) {
+                vy = -vmax;
+            }
+            console.log('fck');
+        }
+    }
+    
+</script>
+</html>
