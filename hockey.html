@@ -36,7 +36,7 @@
     var vxC = 0;
     var vyC = 0;
     var vmax = 20;
-    let friction = 0.009;
+    let friction = 0.01;
     var radius = 30;
     var mouse = {
             x : window.innerWidth / 2,
@@ -76,6 +76,7 @@
     }
 
     let colission_status;
+    
 
     function hand(){
         requestAnimationFrame(hand);
@@ -154,24 +155,40 @@
         c.stroke();
         c.closePath();
 
-        if(Math.abs(vx) < 10){
-            vxC = vx;
-        }else if(vx < -10){
-            vxC = -12;
-        }else{
-            vxC = 12;
+        if(Math.abs(Cx - x) > 30 && Cy - y < 0){
+            if(Math.abs(vx) < 10){
+                vxC = vx;
+            }else if(vx < -10){
+                vxC = -15;
+            }else{
+                vxC = 15;
+            }
         }
         if(y <= window.innerHeight / 2){
-            if(vy > -10 && vy < 0){
-                vyC = -vy;}
-            // }else if(vy < -10){
-            //     vyC = 12;
-            // }else{
-            //     vyC = -12;
-            // }
+            if(Cy < y){
+                vyC = 5;
+            }
+            if(Math.abs(vx) < 1 && Math.abs(vy) < 1){
+                vxC = (x - Cx) / 3;
+                vyC = (y - Cy) / 3;
+            }
         }else{
-            vyC--;
+            vyC = -5;
         }
+        // if(y <= window.innerHeight / 2){
+        //     if(vy > -10 && vy < 0){
+        //         vyC = -vy;}
+        //     // }else if(vy < -10){
+        //     //     vyC = 12;
+        //     // }else{
+        //     //     vyC = -12;
+        //     // }
+        //     if(Cy - y > 0){
+        //         vyC = 5;
+        //     } 
+        // }else{
+        //     vyC--;
+        // }
 
 
         var PxD = mouse.x - x;
