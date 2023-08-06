@@ -83,6 +83,64 @@
         c.clearRect(0, 0, window.innerWidth, window.innerHeight);
 
         c.beginPath();
+        c.moveTo(2.5, 10);
+        c.lineTo(2.5, window.innerHeight - 10);
+        c.lineCap = "round";
+        c.lineWidth = 5;
+        c.strokeStyle = '#5C73F2';
+        c.stroke();
+
+        c.moveTo(window.innerWidth - 2.5, 10);
+        c.lineTo(window.innerWidth - 2.5, window.innerHeight - 10);
+        c.lineCap = "round";
+        c.lineWidth = 5;
+        c.strokeStyle = '#5C73F2';
+        c.stroke();
+
+        c.moveTo(10, 2.5);
+        c.lineTo(window.innerWidth / 2 - 50, 2.5);
+        c.lineCap = "round";
+        c.lineWidth = 5;
+        c.strokeStyle = '#5C73F2';
+        c.stroke();
+
+        c.moveTo(window.innerWidth / 2 + 50, 2.5);
+        c.lineTo(window.innerWidth - 10, 2.5);
+        c.lineCap = "round";
+        c.lineWidth = 5;
+        c.strokeStyle = '#5C73F2';
+        c.stroke();
+        
+        c.moveTo(10, window.innerHeight - 2.5);
+        c.lineTo(window.innerWidth / 2 - 50, window.innerHeight - 2.5);
+        c.lineCap = "round";
+        c.lineWidth = 5;
+        c.strokeStyle = '#5C73F2';
+        c.stroke();
+
+        c.moveTo(window.innerWidth / 2 + 50, window.innerHeight - 2.5);
+        c.lineTo(window.innerWidth - 10, window.innerHeight - 2.5);
+        c.lineCap = "round";
+        c.lineWidth = 5;
+        c.strokeStyle = '#5C73F2';
+        c.stroke();
+
+        c.moveTo(30, window.innerHeight / 2);
+        c.lineTo(window.innerWidth - 30, window.innerHeight / 2);
+        c.lineCap = "round";
+        c.lineWidth = 5;
+        c.strokeStyle = '#5C73F2';
+        c.stroke();
+
+        c.moveTo(window.innerWidth / 2, window.innerHeight / 2);
+        c.arc(window.innerWidth / 2, window.innerHeight / 2, 70, 0, Math.PI * 2, false);
+        c.strokeStyle = '#5C73F2';
+        c.stroke();
+
+        
+
+
+        c.beginPath();
         c.arc(x, y, 20, 0, Math.PI * 2, false);
         c.strokeStyle = '#d0c462';
         c.lineWidth = 10;
