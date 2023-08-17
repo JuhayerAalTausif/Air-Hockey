@@ -38,6 +38,8 @@
     var vmax = 20;
     let friction = 0.01;
     var radius = 30;
+    var pScore = 0;
+    var cScore = 0;
     var mouse = {
             x : window.innerWidth / 2,
             y : 3 * window.innerHeight / 4
@@ -131,11 +133,30 @@
         c.lineWidth = 5;
         c.strokeStyle = '#5C73F2';
         c.stroke();
+        c.closePath();
 
-        c.moveTo(window.innerWidth / 2, window.innerHeight / 2);
+        //c.moveTo(window.innerWidth / 2, window.innerHeight / 2);
+        c.beginPath();
         c.arc(window.innerWidth / 2, window.innerHeight / 2, 70, 0, Math.PI * 2, false);
         c.strokeStyle = '#5C73F2';
         c.stroke();
+        c.closePath();
+
+        //c.moveTo(window.innerWidth / 2, 0);
+        c.beginPath();
+        c.arc(window.innerWidth / 2, 0, 70, 0, Math.PI, false);
+        c.strokeStyle = '#5C73F2';
+        c.stroke();
+        c.closePath();
+
+        //c.moveTo(window.innerWidth / 2, window.innerHeight);
+        c.beginPath();
+        c.arc(window.innerWidth / 2, window.innerHeight, 70, Math.PI, 0, false);
+        c.strokeStyle = '#5C73F2';
+        c.stroke();
+        c.closePath();
+
+       
 
         
 
@@ -329,6 +350,23 @@
                 vy = -vmax;
             }
             console.log('fck');
+        }
+    }
+
+    function score(){
+        if(y < 0){
+            vx = 0;
+            vy = 0;
+            pScore++;
+            x = window.innerWidth / 2;
+            y = window.innerHeight - 70;
+        }
+        if(y > window.innerHeight){
+            vx = 0;
+            vy = 0;
+            cScore++;
+            x = window.innerWidth / 2;
+            y = window.innerHeight + 70;
         }
     }
     
