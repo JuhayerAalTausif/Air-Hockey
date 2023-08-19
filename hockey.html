@@ -156,6 +156,26 @@
         c.stroke();
         c.closePath();
 
+        c.beginPath();
+        c.font = '70px Arial';
+        c.strokeStyle = '#FFFFFF';
+        c.lineWidth = '1';
+        c.textAlign = "center";
+        c.textBaseline = 'middle';
+        c.strokeText(cScore, window.innerWidth - 50, window.innerHeight / 2 - 70);
+        c.closePath();
+
+        c.beginPath();
+        c.font = '70px Arial';
+        c.strokeStyle = '#FFFFFF';
+        c.lineWidth = '1';
+        c.textAlign = "center";
+        c.textBaseline = 'middle';
+        c.strokeText(pScore, window.innerWidth - 50, canvas.height / 2 + 80);
+        c.closePath();
+
+
+
        
 
         
@@ -247,7 +267,7 @@
             if(Cy < y){
                 vyC = 5;
             }
-            if(Math.abs(vx) < 1 && Math.abs(vy) < 1){
+            if(Math.abs(vx) < 1 && Math.abs(vy) < 1 && vx != 0 && vy != 0){
                 vxC = (x - Cx) / 3;
                 vyC = (y - Cy) / 3;
             }
@@ -287,6 +307,10 @@
         }
         if(cDistance <= 70){
             hit(Cx, Cy, vxC, vyC);
+        }
+
+        if(x > window.innerWidth / 2 - 40 && x < window.innerWidth / 2 + 40){
+            score();
         }
 
         // if(pDistance < 70){
@@ -354,19 +378,24 @@
     }
 
     function score(){
-        if(y < 0){
+        if(y <= 70){
             vx = 0;
             vy = 0;
             pScore++;
+            console.log("Player scored");
             x = window.innerWidth / 2;
-            y = window.innerHeight - 70;
+            y = window.innerHeight / 2 - 70;
+            Cx = window.innerWidth / 2;
+            Cy = window.innerHeight / 4;
         }
-        if(y > window.innerHeight){
+        if(y >= window.innerHeight - 70){
             vx = 0;
             vy = 0;
             cScore++;
+            console.log("Computer scored");
+            console.log(cScore);
             x = window.innerWidth / 2;
-            y = window.innerHeight + 70;
+            y = window.innerHeight / 2 + 70;
         }
     }
     
