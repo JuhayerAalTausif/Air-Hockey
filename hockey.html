@@ -33,8 +33,6 @@
         canvas.width = window.innerWidth;    
     }
 
-    // c.translate(0, canvas.height);
-    // c.scale(1, -1);
     var x = canvas.width / 2;
     var y = canvas.height / 2;
     var Cx = canvas.width / 2;
@@ -52,16 +50,10 @@
             x : canvas.width / 2,
             y : 3 * canvas.height / 4
         }
-    // var prevMouse = { // Store previous mouse position
-    //     x: undefined,
-    //     y: undefined
-    // };
     var mousePx = [];
     var mousePy = [];
 
     window.addEventListener('mousemove', function(event){
-        // prevMouse.x = mouse.x; // Store previous mouse position
-        // prevMouse.y = mouse.y;
         mouse.x = event.clientX - canvas.offsetLeft;
         mouse.y = event.clientY - canvas.offsetTop;
         mousePx.push(mouse.x);
@@ -72,69 +64,78 @@
         window.addEventListener("touchmove", function(event){
             mouse.x = event.touches[0].clientX;
             mouse.y = event.touches[0].clientY;
+            mousePx.push(mouse.x);
+            mousePy.push(mouse.y);
         });
     }
-    
-    function getRndInteger(min, max) {
-        return Math.floor(Math.random() * (max - min + 1) ) + min;
-    }
-    
-    function ball(){
-        requestAnimationFrame(ball);
-        //c.clearRect(0, 0, canvas.width, canvas.height);
-        
-    }
-
-    let colission_status;
     
 
     function hand(){
         requestAnimationFrame(hand);
         c.clearRect(0, 0, canvas.width, canvas.height);
 
+        // lefft bar
         c.beginPath();
         c.moveTo(2.5, 10);
         c.lineTo(2.5, canvas.height - 10);
         c.lineCap = "round";
         c.lineWidth = 5;
-        c.strokeStyle = '#5C73F2';
+        c.strokeStyle = '#F2CC0F';
         c.stroke();
+        c.closePath();
 
+        // right bar
+        c.beginPath();
         c.moveTo(canvas.width - 2.5, 10);
         c.lineTo(canvas.width - 2.5, canvas.height - 10);
         c.lineCap = "round";
         c.lineWidth = 5;
-        c.strokeStyle = '#5C73F2';
+        c.strokeStyle = '#EE05F2';
         c.stroke();
+        c.closePath();
 
+        // top left bar
+        c.beginPath();
         c.moveTo(10, 2.5);
         c.lineTo(canvas.width / 2 - 50, 2.5);
         c.lineCap = "round";
         c.lineWidth = 5;
-        c.strokeStyle = '#5C73F2';
+        c.strokeStyle = '#F5564E';
         c.stroke();
+        c.closePath();
 
+        // top right bar
+        c.beginPath();
         c.moveTo(canvas.width / 2 + 50, 2.5);
         c.lineTo(canvas.width - 10, 2.5);
         c.lineCap = "round";
         c.lineWidth = 5;
-        c.strokeStyle = '#5C73F2';
+        c.strokeStyle = '#F5564E';
         c.stroke();
+        c.closePath();
         
+        // bottom left bar
+        c.beginPath();
         c.moveTo(10, canvas.height - 2.5);
         c.lineTo(canvas.width / 2 - 50, canvas.height - 2.5);
         c.lineCap = "round";
         c.lineWidth = 5;
-        c.strokeStyle = '#5C73F2';
+        c.strokeStyle = '#0CF25D';
         c.stroke();
+        c.closePath();
 
+        // bottom right bar
+        c.beginPath();
         c.moveTo(canvas.width / 2 + 50, canvas.height - 2.5);
         c.lineTo(canvas.width - 10, canvas.height - 2.5);
         c.lineCap = "round";
         c.lineWidth = 5;
-        c.strokeStyle = '#5C73F2';
+        c.strokeStyle = '#0CF25D';
         c.stroke();
+        c.closePath();
 
+        // middle bar
+        c.beginPath();
         c.moveTo(30, canvas.height / 2);
         c.lineTo(canvas.width - 30, canvas.height / 2);
         c.lineCap = "round";
@@ -143,27 +144,28 @@
         c.stroke();
         c.closePath();
 
-        //c.moveTo(canvas.width / 2, canvas.height / 2);
+        // center arc
         c.beginPath();
         c.arc(canvas.width / 2, canvas.height / 2, 70, 0, Math.PI * 2, false);
         c.strokeStyle = '#5C73F2';
         c.stroke();
         c.closePath();
 
-        //c.moveTo(canvas.width / 2, 0);
+        // computer's arc
         c.beginPath();
         c.arc(canvas.width / 2, 0, 70, 0, Math.PI, false);
-        c.strokeStyle = '#5C73F2';
+        c.strokeStyle = '#F5564E';
         c.stroke();
         c.closePath();
 
-        //c.moveTo(canvas.width / 2, canvas.height);
+        // player's arc
         c.beginPath();
         c.arc(canvas.width / 2, canvas.height, 70, Math.PI, 0, false);
-        c.strokeStyle = '#5C73F2';
+        c.strokeStyle = '#0CF25D';
         c.stroke();
         c.closePath();
 
+        // computer's score
         c.beginPath();
         c.font = '70px Arial';
         c.strokeStyle = '#FFFFFF';
@@ -173,6 +175,7 @@
         c.strokeText(cScore, canvas.width - 50, canvas.height / 2 - 70);
         c.closePath();
 
+        // player's score
         c.beginPath();
         c.font = '70px Arial';
         c.strokeStyle = '#FFFFFF';
@@ -188,7 +191,7 @@
 
         
 
-
+        // ball
         c.beginPath();
         c.arc(x, y, 20, 0, Math.PI * 2, false);
         c.strokeStyle = '#d0c462';
@@ -216,6 +219,7 @@
         vx -= vx * friction;
         vy -= vy * friction;
 
+        // player
         c.beginPath();
         if(mouse.x + 70 >= canvas.width){
             mouse.x = canvas.width - 70;
@@ -238,6 +242,7 @@
         c.stroke();
         c.closePath();
 
+        // computer
         c.beginPath();
         if(Cx + 70 >= canvas.width){
             Cx = canvas.width - 70;
@@ -280,22 +285,8 @@
                 vyC = (y - Cy) / 3;
             }
         }else{
-            vyC = -10;
+            vyC = -10; // computer goes backward if the ball isn't on computer's side
         }
-        // if(y <= canvas.height / 2){
-        //     if(vy > -10 && vy < 0){
-        //         vyC = -vy;}
-        //     // }else if(vy < -10){
-        //     //     vyC = 12;
-        //     // }else{
-        //     //     vyC = -12;
-        //     // }
-        //     if(Cy - y > 0){
-        //         vyC = 5;
-        //     } 
-        // }else{
-        //     vyC--;
-        // }
 
 
         var PxD = mouse.x - x;
@@ -307,6 +298,7 @@
         const pDistance = Math.sqrt(Math.pow(PxD, 2) + Math.pow(PyD, 2));
         const cDistance = Math.sqrt(Math.pow(CxD, 2) + Math.pow(CyD, 2));
 
+        // hit velocity
         const vxh = (mousePx[mousePx.length - 1] - mousePx[mousePx.length - 2]);
         const vyh = (mousePy[mousePy.length - 1] - mousePy[mousePy.length - 2]);
 
@@ -321,11 +313,6 @@
             score();
         }
 
-        // if(pDistance < 70){
-        //     colission_status = true;
-        // }else{
-        //     colission_status = false;
-        // }
         x += vx;
         y += vy;
 
@@ -334,31 +321,15 @@
     }
 
     window.onload = hand;
-    //ball();
  
     function hit(X, Y, Vx, Vy){
-        // const vxh = prevMouse.x - mouse.x;
-        // const vyh = prevMouse.y - mouse.y;
         const Dx = x - X;
         const Dy = y - Y;
         const Dvx = Vx - vx;
         const Dvy = Vy - vy;
-        // if(x >= X){
-        //     x = X + Dx;
-        // }else if(x <= X){
-        //     x = X - Dx;
-        // }else{
-        //     x = x;
-        // }
-        // if(y >= Y){
-        //     y = Y + Dy;
-        // }else if(y <= Y){
-        //     y = Y - Dy;
-        // }else{
-        //     y = y;
-        // }
-        if(Dx * Dvx + Dy * Dvy >= 0){
-            const thetaR = -Math.atan((Y - y) / (X - x));
+        if(Dx * Dvx + Dy * Dvy >= 0){ // condition to avoid accidental overlaping
+            const thetaR = -Math.atan((Y - y) / (X - x)); // hit angle
+            // relative hit velocity with the hit angle
             const vyr = vx * Math.sin(thetaR) + vy * Math.sin(Math.PI / 2 + thetaR);
             let vxr;
             if(Math.abs(Vx) <= Math.abs(vx) && Math.abs(Vy) <= Math.abs(vy)){
@@ -366,11 +337,9 @@
             }else{
                 vxr = 2 * (Vx * Math.cos(thetaR) + Vy  * Math.cos(Math.PI / 2 + thetaR));
             }
-            // console.log('angle ' + thetaR * 180 / Math.PI);
-            // console.log('v ' + vxr + '   vxh ' + vxh + '   thetaR ' + thetaR);
+            // original angle of hit
             vx = vxr * Math.cos(-thetaR) + vyr * Math.cos(Math.PI / 2 - thetaR);
             vy = vxr * Math.sin(-thetaR) + vyr * Math.sin(Math.PI / 2 - thetaR);
-            //console.log('fck');
             if (vx > vmax) {
                 vx = vmax;
             }else if(vx < -vmax){
@@ -381,7 +350,6 @@
             }else if (vy < -vmax) {
                 vy = -vmax;
             }
-            console.log('fck');
         }
     }
 
