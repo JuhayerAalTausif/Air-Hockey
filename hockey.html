@@ -11,9 +11,12 @@
         }
         canvas{
             display: block;
-            margin: 0;
+            margin: auto;
             padding: 0;
             background-color: black;
+            position: absolute;
+            left: 0;
+            right: 0;
         }
     </style>
 </head>
@@ -24,13 +27,18 @@
     var canvas = document.querySelector('canvas');
     var c = canvas.getContext('2d');
     canvas.height = window.innerHeight;
-    canvas.width = window.innerWidth;
-    // c.translate(0, window.innerHeight);
+    if(window.innerWidth > 550){
+        canvas.width = 550;
+    }else{
+        canvas.width = window.innerWidth;    
+    }
+
+    // c.translate(0, canvas.height);
     // c.scale(1, -1);
-    var x = window.innerWidth / 2;
-    var y = window.innerHeight / 2;
-    var Cx = window.innerWidth / 2;
-    var Cy = window.innerHeight / 4;
+    var x = canvas.width / 2;
+    var y = canvas.height / 2;
+    var Cx = canvas.width / 2;
+    var Cy = canvas.height / 4;
     var vx = 0;
     var vy = 0;
     var vxC = 0;
@@ -41,8 +49,8 @@
     var pScore = 0;
     var cScore = 0;
     var mouse = {
-            x : window.innerWidth / 2,
-            y : 3 * window.innerHeight / 4
+            x : canvas.width / 2,
+            y : 3 * canvas.height / 4
         }
     // var prevMouse = { // Store previous mouse position
     //     x: undefined,
@@ -73,7 +81,7 @@
     
     function ball(){
         requestAnimationFrame(ball);
-        //c.clearRect(0, 0, window.innerWidth, window.innerHeight);
+        //c.clearRect(0, 0, canvas.width, canvas.height);
         
     }
 
@@ -82,76 +90,76 @@
 
     function hand(){
         requestAnimationFrame(hand);
-        c.clearRect(0, 0, window.innerWidth, window.innerHeight);
+        c.clearRect(0, 0, canvas.width, canvas.height);
 
         c.beginPath();
         c.moveTo(2.5, 10);
-        c.lineTo(2.5, window.innerHeight - 10);
+        c.lineTo(2.5, canvas.height - 10);
         c.lineCap = "round";
         c.lineWidth = 5;
         c.strokeStyle = '#5C73F2';
         c.stroke();
 
-        c.moveTo(window.innerWidth - 2.5, 10);
-        c.lineTo(window.innerWidth - 2.5, window.innerHeight - 10);
+        c.moveTo(canvas.width - 2.5, 10);
+        c.lineTo(canvas.width - 2.5, canvas.height - 10);
         c.lineCap = "round";
         c.lineWidth = 5;
         c.strokeStyle = '#5C73F2';
         c.stroke();
 
         c.moveTo(10, 2.5);
-        c.lineTo(window.innerWidth / 2 - 50, 2.5);
+        c.lineTo(canvas.width / 2 - 50, 2.5);
         c.lineCap = "round";
         c.lineWidth = 5;
         c.strokeStyle = '#5C73F2';
         c.stroke();
 
-        c.moveTo(window.innerWidth / 2 + 50, 2.5);
-        c.lineTo(window.innerWidth - 10, 2.5);
+        c.moveTo(canvas.width / 2 + 50, 2.5);
+        c.lineTo(canvas.width - 10, 2.5);
         c.lineCap = "round";
         c.lineWidth = 5;
         c.strokeStyle = '#5C73F2';
         c.stroke();
         
-        c.moveTo(10, window.innerHeight - 2.5);
-        c.lineTo(window.innerWidth / 2 - 50, window.innerHeight - 2.5);
+        c.moveTo(10, canvas.height - 2.5);
+        c.lineTo(canvas.width / 2 - 50, canvas.height - 2.5);
         c.lineCap = "round";
         c.lineWidth = 5;
         c.strokeStyle = '#5C73F2';
         c.stroke();
 
-        c.moveTo(window.innerWidth / 2 + 50, window.innerHeight - 2.5);
-        c.lineTo(window.innerWidth - 10, window.innerHeight - 2.5);
+        c.moveTo(canvas.width / 2 + 50, canvas.height - 2.5);
+        c.lineTo(canvas.width - 10, canvas.height - 2.5);
         c.lineCap = "round";
         c.lineWidth = 5;
         c.strokeStyle = '#5C73F2';
         c.stroke();
 
-        c.moveTo(30, window.innerHeight / 2);
-        c.lineTo(window.innerWidth - 30, window.innerHeight / 2);
+        c.moveTo(30, canvas.height / 2);
+        c.lineTo(canvas.width - 30, canvas.height / 2);
         c.lineCap = "round";
         c.lineWidth = 5;
         c.strokeStyle = '#5C73F2';
         c.stroke();
         c.closePath();
 
-        //c.moveTo(window.innerWidth / 2, window.innerHeight / 2);
+        //c.moveTo(canvas.width / 2, canvas.height / 2);
         c.beginPath();
-        c.arc(window.innerWidth / 2, window.innerHeight / 2, 70, 0, Math.PI * 2, false);
+        c.arc(canvas.width / 2, canvas.height / 2, 70, 0, Math.PI * 2, false);
         c.strokeStyle = '#5C73F2';
         c.stroke();
         c.closePath();
 
-        //c.moveTo(window.innerWidth / 2, 0);
+        //c.moveTo(canvas.width / 2, 0);
         c.beginPath();
-        c.arc(window.innerWidth / 2, 0, 70, 0, Math.PI, false);
+        c.arc(canvas.width / 2, 0, 70, 0, Math.PI, false);
         c.strokeStyle = '#5C73F2';
         c.stroke();
         c.closePath();
 
-        //c.moveTo(window.innerWidth / 2, window.innerHeight);
+        //c.moveTo(canvas.width / 2, canvas.height);
         c.beginPath();
-        c.arc(window.innerWidth / 2, window.innerHeight, 70, Math.PI, 0, false);
+        c.arc(canvas.width / 2, canvas.height, 70, Math.PI, 0, false);
         c.strokeStyle = '#5C73F2';
         c.stroke();
         c.closePath();
@@ -162,7 +170,7 @@
         c.lineWidth = '1';
         c.textAlign = "center";
         c.textBaseline = 'middle';
-        c.strokeText(cScore, window.innerWidth - 50, window.innerHeight / 2 - 70);
+        c.strokeText(cScore, canvas.width - 50, canvas.height / 2 - 70);
         c.closePath();
 
         c.beginPath();
@@ -171,7 +179,7 @@
         c.lineWidth = '1';
         c.textAlign = "center";
         c.textBaseline = 'middle';
-        c.strokeText(pScore, window.innerWidth - 50, canvas.height / 2 + 80);
+        c.strokeText(pScore, canvas.width - 50, canvas.height / 2 + 80);
         c.closePath();
 
 
@@ -190,8 +198,8 @@
         if(x - radius <= 10){
             x = radius + 10;
             vx = -vx;
-        }else if(x + radius >= window.innerWidth - 10){
-            x = window.innerWidth - radius - 10;
+        }else if(x + radius >= canvas.width - 10){
+            x = canvas.width - radius - 10;
             vx = -vx;
         }else{
             vx = vx;
@@ -199,8 +207,8 @@
         if(y - radius <= 10){
             y = radius + 10;
             vy = -vy;
-        }else if(y + radius >= window.innerHeight - 10){
-            y = window.innerHeight - radius - 10;
+        }else if(y + radius >= canvas.height - 10){
+            y = canvas.height - radius - 10;
             vy = -vy;
         }else{
             vy = vy;
@@ -209,17 +217,17 @@
         vy -= vy * friction;
 
         c.beginPath();
-        if(mouse.x + 70 >= window.innerWidth){
-            mouse.x = window.innerWidth - 70;
+        if(mouse.x + 70 >= canvas.width){
+            mouse.x = canvas.width - 70;
         }else if(mouse.x - 70 <= 0){
             mouse.x = 70;
         }else{
             mouse.x = mouse.x;
         }
-        if(mouse.y + 70 >= window.innerHeight){
-            mouse.y = window.innerHeight - 70;
-        }else if(mouse.y - radius <= window.innerHeight / 2){
-            mouse.y = window.innerHeight / 2 + radius;
+        if(mouse.y + 70 >= canvas.height){
+            mouse.y = canvas.height - 70;
+        }else if(mouse.y - radius <= canvas.height / 2){
+            mouse.y = canvas.height / 2 + radius;
         }else{
             mouse.y = mouse.y;
         } 
@@ -231,8 +239,8 @@
         c.closePath();
 
         c.beginPath();
-        if(Cx + 70 >= window.innerWidth){
-            Cx = window.innerWidth - 70;
+        if(Cx + 70 >= canvas.width){
+            Cx = canvas.width - 70;
             vxC = 0;
         }else if(Cx - 70 <= 0){
             Cx = 70;
@@ -240,10 +248,10 @@
         }else{
             Cx = Cx;
         }
-        if(Cy + 70 >= window.innerHeight / 2){
-            Cy = window.innerHeight / 2 - 70;
-        }else if(Cy - radius <= window.innerHeight / 12){
-            Cy = window.innerHeight / 12 + radius;
+        if(Cy + 70 >= canvas.height / 2){
+            Cy = canvas.height / 2 - 70;
+        }else if(Cy - radius <= canvas.height / 12){
+            Cy = canvas.height / 12 + radius;
         }else{
             Cy = Cy;
         }
@@ -263,7 +271,7 @@
                 vxC = 15;
             }
         }
-        if(y <= window.innerHeight / 2){
+        if(y <= canvas.height / 2){
             if(Cy < y){
                 vyC = 5;
             }
@@ -272,9 +280,9 @@
                 vyC = (y - Cy) / 3;
             }
         }else{
-            vyC = -5;
+            vyC = -10;
         }
-        // if(y <= window.innerHeight / 2){
+        // if(y <= canvas.height / 2){
         //     if(vy > -10 && vy < 0){
         //         vyC = -vy;}
         //     // }else if(vy < -10){
@@ -309,7 +317,7 @@
             hit(Cx, Cy, vxC, vyC);
         }
 
-        if(x > window.innerWidth / 2 - 40 && x < window.innerWidth / 2 + 40){
+        if(x > canvas.width / 2 - 40 && x < canvas.width / 2 + 40){
             score();
         }
 
@@ -383,19 +391,19 @@
             vy = 0;
             pScore++;
             console.log("Player scored");
-            x = window.innerWidth / 2;
-            y = window.innerHeight / 2 - 70;
-            Cx = window.innerWidth / 2;
-            Cy = window.innerHeight / 4;
+            x = canvas.width / 2;
+            y = canvas.height / 2 - 70;
+            Cx = canvas.width / 2;
+            Cy = canvas.height / 4;
         }
-        if(y >= window.innerHeight - 70){
+        if(y >= canvas.height - 70){
             vx = 0;
             vy = 0;
             cScore++;
             console.log("Computer scored");
             console.log(cScore);
-            x = window.innerWidth / 2;
-            y = window.innerHeight / 2 + 70;
+            x = canvas.width / 2;
+            y = canvas.height / 2 + 70;
         }
     }
     
